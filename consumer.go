@@ -5,11 +5,14 @@ import (
    "fmt"
    "log"
    "time"
-   "github.com/streadway/amqp"
+   _"github.com/streadway/amqp"
+   _"github.com/go-sql-driver/mysql"
 )
 
+var db *sql.DB
+
 var (
-   uri          = flag.String("uri", "host", "AMQP URI")
+   uri          = flag.String("uri", "amqp://admin:admin@123.141.74.102:5672/", "AMQP URI")
    exchange     = flag.String("exchange", "test", "Durable, non-auto-deleted AMQP exchange name")
    exchangeType = flag.String("exchange-type", "direct", "Exchange type - direct|fanout|topic|x-custom")
    queue        = flag.String("queue", "test", "Ephemeral AMQP queue name")
@@ -142,6 +145,13 @@ func handle(deliveries <-chan amqp.Delivery, done chan error) {
 
 
 func main() {
+   db, err := sql.Open("mysql", "root:abc123@tcp(127.0.0.1:3306)/test")
+
+   if err != nil {
+      fmt.Println(err)
+   }
+   defer db.Close()
+
    c, err := NewConsumer(*uri, *exchange, *exchangeType, *queue, *bindingKey, *consumerTag)
    if err != nil {
       log.Fatalf("%s", err)
