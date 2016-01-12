@@ -5,9 +5,10 @@ import (
    "fmt"
    "log"
    "time"
-   _"github.com/streadway/amqp"
-   _"github.com/go-sql-driver/mysql"
-)
+   "github.com/streadway/amqp"
+   _ "github.com/go-sql-driver/mysql"
+   "database/sql"
+ )
 
 var db *sql.DB
 
@@ -145,6 +146,7 @@ func handle(deliveries <-chan amqp.Delivery, done chan error) {
 
 
 func main() {
+   // db, err := sql.Open("mysql", "user:password@/dbname")
    db, err := sql.Open("mysql", "root:abc123@tcp(127.0.0.1:3306)/test")
 
    if err != nil {
