@@ -13,7 +13,7 @@ import (
 var db *sql.DB
 
 var (
-   uri          = flag.String("uri", "amqp://admin:admin@123.141.74.102:5672/", "AMQP URI")
+   uri          = flag.String("uri", "host", "AMQP URI")
    exchange     = flag.String("exchange", "test", "Durable, non-auto-deleted AMQP exchange name")
    exchangeType = flag.String("exchange-type", "direct", "Exchange type - direct|fanout|topic|x-custom")
    queue        = flag.String("queue", "test", "Ephemeral AMQP queue name")
